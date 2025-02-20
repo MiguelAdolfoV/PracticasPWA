@@ -1,0 +1,7 @@
+{
+  "name": "PracticasPWA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
