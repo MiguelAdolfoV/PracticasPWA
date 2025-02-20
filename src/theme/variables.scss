@@ -1,2 +1,12 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+:root {
+    --ion-color-primary: #4caf50;
+    --ion-background-color: #ffffff;
+    --ion-text-color: #222;
+  }
+  
+  body.dark {
+    --ion-background-color: #121212;
+    --ion-text-color: #ffffff;
+    --ion-color-primary: #66bb6a;
+  }
+  

@@ -1,0 +1,39 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="form-card">
+
+      <app-loading-login-success *ngIf="isLoggingIn"></app-loading-login-success> 
+      <ng-container *ngIf="!isLoggingIn">
+        <h2>Iniciar sesión</h2>
+        <p class="subtitle">Ingresa tu correo electrónico y contraseña</p>
+
+        <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input type="email" formControlName="email" (input)="validateInputs('email')"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+            Correo inválido
+          </ion-text>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input type="password" formControlName="password" (input)="validateInputs('password')"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Contraseña inválida
+          </ion-text>
+
+          <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
+            Iniciar sesión
+          </ion-button>
+
+          <p class="login-link">
+            ¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a>
+          </p>
+        </form>
+      </ng-container>
+
+    </div>
+  </div>
+</ion-content>

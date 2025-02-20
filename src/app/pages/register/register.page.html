@@ -1,0 +1,58 @@
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="form-card">
+      
+      <h2>Crear Cuenta</h2>
+      <p class="subtitle">Rellena los datos para registrarte</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+        <ion-item>
+          <ion-label position="floating">Correo electrónico</ion-label>
+          <ion-input type="email" formControlName="email" (input)="validateInputs('email')"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Correo inválido
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Nombre completo</ion-label>
+          <ion-input type="text" formControlName="fullName" (input)="validateInputs('fullName')"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Usuario</ion-label>
+          <ion-input type="text" formControlName="username" (input)="validateInputs('username')"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+          No se permiten espacios
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password" formControlName="password" (input)="validateInputs('password')"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Confirmar Contraseña</ion-label>
+          <ion-input type="password" formControlName="confirmPassword" (input)="validateInputs('confirmPassword')"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="!passwordsMatch">
+          Las contraseñas no coinciden
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Fecha de nacimiento</ion-label>
+          <ion-input type="date" formControlName="birthDate"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="registerForm.invalid || !passwordsMatch">
+          Registrarse
+        </ion-button>
+
+        <p class="login-link">
+          ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</ion-content>
