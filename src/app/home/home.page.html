@@ -1,7 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
-  <div class="home-container">
-    <div class="logo-container">
-      <img src="assets/logo.png" alt="Logo" />
+  <ion-segment [(ngModel)]="selectedTab">
+    <ion-segment-button value="profile">
+      <ion-label>Mi Perfil</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button *ngIf="isAdmin" value="admin-users">
+      <ion-label>Admin Usuarios</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- View My Profile -->
+  <div *ngIf="selectedTab === 'profile'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Perfil</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Nombre:</strong> {{ user?.fullName }}</p>
+        <p><strong>Email:</strong> {{ user?.email }}</p>
+        <p><strong>Rol:</strong> {{ user?.role }}</p>
+        <p *ngIf="user?.last_login">Último inicio de sesión: {{ user.last_login | date:'medium' }}</p>
+        <p *ngIf="user?.phone"><strong>Teléfono:</strong> {{ user?.phone }}</p>
+        <p *ngIf="user?.birthdate"><strong>Fecha de Nacimiento:</strong> {{ user?.birthdate | date: 'medium' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Admin Users -->
+  <div *ngIf="selectedTab === 'admin-users' && isAdmin">
+    <ion-segment [(ngModel)]="adminTab">
+      <ion-segment-button value="list">
+        <ion-label>Usuarios</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="add">
+        <ion-label>Agregar</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="edit">
+        <ion-label>Modificar</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Listar Usuarios -->
+    <div *ngIf="adminTab === 'list'">
+      <h2>Lista de Usuarios</h2>
+      <ion-list>
+        <ion-item *ngFor="let u of users">
+          <ion-label>{{ u.fullName }} - {{ u.email }}</ion-label>
+          <ion-button color="danger" (click)="deleteUser(u.id)">Eliminar</ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <!-- Agregar Usuario -->
+    <div *ngIf="adminTab === 'add'">
+      <h2>Agregar Usuario</h2>
+      <ion-input placeholder="Nombre Completo" [(ngModel)]="newUser.fullName"></ion-input>
+      <ion-input placeholder="Nombre de Usuario" [(ngModel)]="newUser.username"></ion-input>
+      <ion-input placeholder="Email" [(ngModel)]="newUser.email"></ion-input>
+      <ion-input placeholder="Contraseña" type="password" [(ngModel)]="newUser.password"></ion-input>
+      <ion-select placeholder="Rol" [(ngModel)]="newUser.role">
+        <ion-select-option value="user">Usuario</ion-select-option>
+        <ion-select-option value="admin">Administrador</ion-select-option>
+      </ion-select>
+      <ion-button (click)="addUser()">Guardar</ion-button>
+    </div>
+
+    <!-- Modificar Usuario -->
+    <div *ngIf="adminTab === 'edit'">
+      <h2>Modificar Usuario</h2>
+      <ion-input placeholder="Buscar email" [(ngModel)]="searchEmail"></ion-input>
+      <ion-button (click)="searchUser()">Buscar</ion-button>
+
+      <div *ngIf="editUser">
+        <ion-input placeholder="Nombre Completo" [(ngModel)]="editUser.fullName"></ion-input>
+        <ion-input placeholder="Nombre de Usuario" [(ngModel)]="editUser.username"></ion-input>
+        <ion-input placeholder="Email" [(ngModel)]="editUser.email"></ion-input>
+        <ion-button (click)="updateUser()">Actualizar</ion-button>
+      </div>
     </div>
   </div>
+
+  <!-- Botón Logout -->
+  <ion-button expand="full" color="danger" (click)="logout()">Cerrar Sesión</ion-button>
 </ion-content>

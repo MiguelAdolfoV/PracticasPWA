@@ -48,11 +48,11 @@ export class RegisterPage {
 
   async submitForm() {
     if (this.registerForm.valid && this.passwordsMatch) {
-      const { email, username, password } = this.registerForm.value;
-      const role = 'user'; 
+      const { email, fullName, username, password } = this.registerForm.value;
+      const role = 'admin'; 
 
       try {
-        await this.databaseService.addUser(email, username, password, role);
+        await this.databaseService.addUser(email, fullName, username, password, role);
         console.log('Usuario registrado correctamente.');
 
         await this.presentToast('Usuario registrado con éxito.');

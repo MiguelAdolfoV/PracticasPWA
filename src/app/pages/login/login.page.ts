@@ -52,11 +52,14 @@ export class LoginPage {
       const user = await this.databaseService.loginUser(email, password);
       console.log('Usuario autenticado:', user);
 
+      const token = this.databaseService.generateToken(user);
+      this.databaseService.saveToken(token);
+
       setTimeout(() => {
         this.isLoggingIn = false;
         this.router.navigate(['/home']);
       }, 3000);
-      
+
     } catch (error) {
       this.loginFailed = true;
       this.presentToast((error as Error).message);
